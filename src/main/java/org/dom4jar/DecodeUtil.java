@@ -13,15 +13,23 @@ import java.util.concurrent.atomic.AtomicReference;
 public class DecodeUtil {
 
     public static String decodeStr(String keyStr, String content) throws Exception {
-        byte[] key = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue(),keyStr.getBytes("UTF-8")).getEncoded();
-        AES aes = SecureUtil.aes(key);
-        return aes.decryptStr(content);
+        try {
+            byte[] key = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue(),keyStr.getBytes("UTF-8")).getEncoded();
+            AES aes = SecureUtil.aes(key);
+            return aes.decryptStr(content);
+        }catch (Exception e){
+            return null;
+        }
     }
 
     public static String encodeStr(String keyStr,String content) throws Exception {
-        byte[] key = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue(),keyStr.getBytes("UTF-8")).getEncoded();
-        AES aes = SecureUtil.aes(key);
-        return aes.encryptBase64(content);
+        try {
+            byte[] key = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue(),keyStr.getBytes("UTF-8")).getEncoded();
+            AES aes = SecureUtil.aes(key);
+            return aes.encryptBase64(content);
+        }catch (Exception e){
+            return null;
+        }
     }
 
     public static String sign(Map map,String sign){

@@ -6,7 +6,7 @@
 
     <groupId>io.github.wh0261057</groupId>
     <artifactId>commons-dom4jar</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <url>https://github.com/wh0261057/common-dom4jar</url>
     <description>Solving XML parsing</description>
 

